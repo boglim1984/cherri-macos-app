@@ -11,10 +11,14 @@ import Combine
 class EditorController: ObservableObject {
     @Published var currentContentView: ContentView? = nil
     func build() {
-        currentContentView?.compileFile(openCompiled: false)
+        Task {
+            await currentContentView?.compileFile(openCompiled: false)
+        }
     }
     func buildAndOpen() {
-        currentContentView?.compileFile(openCompiled: true)
+        Task {
+            await currentContentView?.compileFile(openCompiled: true)
+        }
     }
 }
 

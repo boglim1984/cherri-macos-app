@@ -78,7 +78,7 @@ struct ContentView: View {
                     } else {
                         Button("Build", systemImage: "hammer.fill") {
                             Task {
-                                compileFile(openCompiled: false)
+                                await compileFile(openCompiled: false)
                             }
                         }
                         .buttonStyle(.automatic)
@@ -86,7 +86,7 @@ struct ContentView: View {
 
                         Button("Run", systemImage: "play.fill") {
                             Task {
-                                compileFile(openCompiled: true)
+                                await compileFile(openCompiled: true)
                             }
                         }
                         .buttonStyle(.automatic)
@@ -142,10 +142,19 @@ struct ContentView: View {
         shortcutURL = URL(string: "\(path)/\(shortcutName.replacingOccurrences(of: "%20", with: ""))")!
     }
     
-    func compileFile(openCompiled: Bool) {
+    func compileFile(openCompiled: Bool) async {
         guard let fileURL = fileURL else { return }
         
         busy = true
+
+        if let nsDocument = NSDocumentController.shared.document(for: fileURL) {
+            await withCheckedContinuation { continuation in
+                nsDocument.save(to: fileURL, ofType: nsDocument.fileType ?? "org.cherrilang.cherri.file", for: .saveOperation) { error in
+                    continuation.resume()
+                }
+            }
+        }
+        
         compiled = false
         hasError = false
         hasWarnings = false
