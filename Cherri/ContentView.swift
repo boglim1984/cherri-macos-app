@@ -18,7 +18,7 @@ struct ContentView: View {
     private var shareWith: ShareOption = .contacts
     
     @Binding var document: CherriDocument
-    @State var fileURL: URL
+    var fileURL: URL?
     @State var shortcutURL: URL?
     
     @State var fileName: String = ""
@@ -45,8 +45,8 @@ struct ContentView: View {
     @State private var compiled:         Bool                      = false
     
     @FocusState private var editorIsFocused: Bool
-    
-    var editorController: EditorController? = nil
+
+    @ObservedObject var editorController: EditorController
     
     var body: some View {
         VStack {
@@ -82,12 +82,15 @@ struct ContentView: View {
                             }
                         }
                         .buttonStyle(.automatic)
-                        
+                        .disabled(fileURL == nil)
+
                         Button("Run", systemImage: "play.fill") {
                             Task {
                                 compileFile(openCompiled: true)
                             }
-                        }.buttonStyle(.automatic)
+                        }
+                        .buttonStyle(.automatic)
+                        .disabled(fileURL == nil)
                         
                         if hasError || hasWarnings || compiled {
                             Divider()
@@ -115,11 +118,13 @@ struct ContentView: View {
         }
         .frame(minWidth: 300, minHeight: 600)
         .onAppear {
-            editorController?.currentContentView = self
+            editorController.currentContentView = self
         }
     }
     
     func parseFilepath() {
+        guard let fileURL = fileURL else { return }
+
         let pathParts = fileURL.relativePath
             .replacingOccurrences(of: "file://", with: "")
             .split(separator: "/")
@@ -138,17 +143,19 @@ struct ContentView: View {
     }
     
     func compileFile(openCompiled: Bool) {
+        guard let fileURL = fileURL else { return }
+
         compiled = false
         hasError = false
         hasWarnings = false
         compiling = true
-        
+
         parseFilepath()
-        
+
         messages.removeAll()
-        
+
         let process = Process()
-        
+
         let bundle = Bundle.main
         process.executableURL = bundle.url(forResource: "cherri_binary", withExtension: "")
         process.arguments = [fileURL.relativePath, "--no-ansi"]
@@ -224,7 +231,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(document: .constant(CherriDocument(text: "")), fileURL: URL(filePath: ""))
+        ContentView(document: .constant(CherriDocument(text: "")), fileURL: nil, editorController: EditorController())
             .preferredColorScheme(.dark)
     }
 }

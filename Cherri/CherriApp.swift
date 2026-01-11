@@ -25,7 +25,7 @@ struct CherriApp: App {
     
     var body: some Scene {
         DocumentGroup(newDocument: CherriDocument()) { file in
-            ContentView(document: file.$document, fileURL: file.fileURL ?? URL(fileURLWithPath: ""), editorController: editorController)
+            ContentView(document: file.$document, fileURL: file.fileURL, editorController: editorController)
                 .onAppear {}
         }.commands {
             CommandMenu("Build") {
