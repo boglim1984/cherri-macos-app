@@ -41,7 +41,7 @@ struct ContentView: View {
     
     @State private var hasError:         Bool                      = false
     @State private var hasWarnings:      Bool                      = false
-    @State private var compiling:        Bool                      = false
+    @State private var busy:             Bool                      = false
     @State private var compiled:         Bool                      = false
     
     @FocusState private var editorIsFocused: Bool
@@ -70,7 +70,7 @@ struct ContentView: View {
                 .focused($editorIsFocused)
             }.toolbar {
                 HStack {
-                    if compiling {
+                    if busy {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
                             .scaleEffect(x: 0.5, y: 0.5, anchor: .center)
@@ -144,11 +144,11 @@ struct ContentView: View {
     
     func compileFile(openCompiled: Bool) {
         guard let fileURL = fileURL else { return }
-
+        
+        busy = true
         compiled = false
         hasError = false
         hasWarnings = false
-        compiling = true
 
         parseFilepath()
 
@@ -180,7 +180,7 @@ struct ContentView: View {
         
         handleCompilerOutput(output: "\(output)\n\n")
         
-        compiling = false
+        busy = false
     }
 
     func handleCompilerOutput(output: String) {
