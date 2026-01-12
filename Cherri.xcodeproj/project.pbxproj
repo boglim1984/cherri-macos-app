@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		720DA3C02EDBDEC3000086D1 /* CodeTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720DA3BE2EDBDEC2000086D1 /* CodeTheme.swift */; };
 		720DA3C12EDBDEC3000086D1 /* MessageEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720DA3BF2EDBDEC2000086D1 /* MessageEntry.swift */; };
-		720DA3C42EDBDEDF000086D1 /* DocumentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720DA3C22EDBDEDF000086D1 /* DocumentState.swift */; };
 		720DA3C52EDBDEDF000086D1 /* ShareOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720DA3C32EDBDEDF000086D1 /* ShareOption.swift */; };
 		72213BA22B1D159C00590D99 /* CherriApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72213BA12B1D159C00590D99 /* CherriApp.swift */; };
 		72213BA42B1D159C00590D99 /* CherriDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72213BA32B1D159C00590D99 /* CherriDocument.swift */; };
@@ -48,7 +47,6 @@
 /* Begin PBXFileReference section */
 		720DA3BE2EDBDEC2000086D1 /* CodeTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTheme.swift; sourceTree = "<group>"; };
 		720DA3BF2EDBDEC2000086D1 /* MessageEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageEntry.swift; sourceTree = "<group>"; };
-		720DA3C22EDBDEDF000086D1 /* DocumentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentState.swift; sourceTree = "<group>"; };
 		720DA3C32EDBDEDF000086D1 /* ShareOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareOption.swift; sourceTree = "<group>"; };
 		72213B9E2B1D159C00590D99 /* Cherri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cherri.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72213BA12B1D159C00590D99 /* CherriApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CherriApp.swift; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 				72213BD42B1D24EB00590D99 /* cherri_binary */,
 				720DA3BE2EDBDEC2000086D1 /* CodeTheme.swift */,
 				720DA3BF2EDBDEC2000086D1 /* MessageEntry.swift */,
-				720DA3C22EDBDEDF000086D1 /* DocumentState.swift */,
 				720DA3C32EDBDEDF000086D1 /* ShareOption.swift */,
 				72213BA52B1D159C00590D99 /* ContentView.swift */,
 				72213BA72B1D159E00590D99 /* Assets.xcassets */,
@@ -335,7 +332,6 @@
 				720DA3C12EDBDEC3000086D1 /* MessageEntry.swift in Sources */,
 				72D467512B578CB300547002 /* AboutView.swift in Sources */,
 				72213BA62B1D159C00590D99 /* ContentView.swift in Sources */,
-				720DA3C42EDBDEDF000086D1 /* DocumentState.swift in Sources */,
 				720DA3C52EDBDEDF000086D1 /* ShareOption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
