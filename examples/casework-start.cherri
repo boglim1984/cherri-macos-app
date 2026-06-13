@@ -1,21 +1,30 @@
 #include 'actions/mac'
 
 @script = "set -e
+LOG=\"/tmp/orion-casework-start.log\"
+PAYLOAD_URL=\"https://script.google.com/macros/s/AKfycbw_CmItX3pczFVL8VLIoFYUq_MSt3HMEhZqcv9aTOr1li-gxx2_Pewi66U72CukZZ9w/exec?action=chatgptPlainPayload&id=2060\"
+LAUNCHER=\"/Users/oflahertys/Code Projects/ACTIVE/orion-ios-ttd-injector/ttd-mobile-extension/tools/command-language-casework/launch-casework.command\"
 
-HELPER=\"/Users/oflahertys/Code Projects/ACTIVE/orion-ios-ttd-injector/ttd-mobile-extension/tools/command-language-casework/scripts/copy-fresh-casework-skill.mjs\"
+{
+  echo \"Casework Start \$(date)\"
+  PAYLOAD=\"\$(/usr/bin/curl -fsSL \"\$PAYLOAD_URL\")\"
 
-if [ ! -f \"$HELPER\" ]; then
-  osascript -e 'display alert \"Casework Start failed\" message \"Helper script not found.\"'
-  exit 1
-fi
+  if printf \"%s\" \"\$PAYLOAD\" | /usr/bin/grep -q \"^---\"; then
+    echo \"ERROR: payload still has YAML frontmatter\"
+    exit 1
+  fi
 
-if ! node \"$HELPER\"; then
-  osascript -e 'display alert \"Casework Start failed\" message \"Helper script failed to run.\"'
-  exit 1
-fi
+  if ! printf \"%s\" \"\$PAYLOAD\" | /usr/bin/grep -q \"Command Language Casework Designer Skill\"; then
+    echo \"ERROR: payload missing Casework skill marker\"
+    exit 1
+  fi
 
-osascript -e 'display alert \"Fresh Casework Skill copied\" message \"Paste it into the current ChatGPT composer. Support tabs launching.\"'
+  printf \"%s\" \"\$PAYLOAD\" | /usr/bin/pbcopy
+  echo \"Copied payload bytes: \$(printf \"%s\" \"\$PAYLOAD\" | /usr/bin/wc -c)\"
 
-open \"/Users/oflahertys/Code Projects/ACTIVE/orion-ios-ttd-injector/ttd-mobile-extension/tools/command-language-casework/launch-casework.command\""
+  /usr/bin/open \"\$LAUNCHER\"
+  echo \"Launcher opened\"
+} >> \"\$LOG\" 2>&1
+"
 
 runShellScript(@script, ShortcutInput)
