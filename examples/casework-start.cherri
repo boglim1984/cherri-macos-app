@@ -1,0 +1,21 @@
+#include 'actions/mac'
+
+@script = "set -e
+
+HELPER=\"/Users/oflahertys/Code Projects/ACTIVE/orion-ios-ttd-injector/ttd-mobile-extension/tools/command-language-casework/scripts/copy-fresh-casework-skill.mjs\"
+
+if [ ! -f \"$HELPER\" ]; then
+  osascript -e 'display alert \"Casework Start failed\" message \"Helper script not found.\"'
+  exit 1
+fi
+
+if ! node \"$HELPER\"; then
+  osascript -e 'display alert \"Casework Start failed\" message \"Helper script failed to run.\"'
+  exit 1
+fi
+
+osascript -e 'display alert \"Fresh Casework Skill copied\" message \"Paste it into the current ChatGPT composer. Support tabs launching.\"'
+
+open \"/Users/oflahertys/Code Projects/ACTIVE/orion-ios-ttd-injector/ttd-mobile-extension/tools/command-language-casework/launch-casework.command\""
+
+runShellScript(@script, ShortcutInput)
